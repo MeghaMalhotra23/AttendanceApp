@@ -1,32 +1,36 @@
 import React from 'react';
-import { StyleSheet, Text, View,ImageBackground,Image,Button,TouchableOpacity } from 'react-native';
 import LoginScreen from './App/Containers/LoginScreen';
 import HomeScreen from './App/Containers/Home';
-import {createStackNavigator,createAppContainer,createDrawerNavigator} from 'react-navigation'
-import {AppStack} from './App/Containers/Home'; 
+import {createStackNavigator,createAppContainer,createDrawerNavigator,DrawerActions} from 'react-navigation' 
 import DrawerContainer from './App/Containers/Drawer';
+import {Button} from 'react-native-paper';
+import * as firebase from 'firebase';
+//firebase config
+var config = {
+  apiKey: "AIzaSyAbmUDdJgswI_K0wUraShFQaZT-lWQXS_g",
+  authDomain: "quiz-0001.firebaseapp.com",
+  databaseURL: "https://quiz-0001.firebaseio.com",
+  projectId: "quiz-0001",
+  storageBucket: "quiz-0001.appspot.com",
+  messagingSenderId: "769726038218"
+};
+firebase.initializeApp(config);
 
-// export default class App extends React.Component {
-//   signIn(){
 
-//   }
-//   render() {
-//     return (
-//       <View style={styles.container}>
-//       <LoginScreen/>
-//     </View>
-//     );
-//   }
-// }
+//Application Navigation
 const appStack= createStackNavigator({
   login:{screen:LoginScreen,
           navigationOptions:{
             header:null
           }},
   home:{screen:HomeScreen,
-    navigationOptions:{
-      
-    }},
+    navigationOptions:({navigation})=>({
+      headerTitle:'Home',
+      headerLeft:(
+        <Button icon="menu" onPress={()=>navigation.dispatch(DrawerActions.openDrawer())}></Button>
+      )
+      })
+    },
 })
 const DrawerStack=createDrawerNavigator({
   app:appStack,
@@ -36,28 +40,3 @@ const DrawerStack=createDrawerNavigator({
 })
 const App=createAppContainer(DrawerStack);
 export default App;
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  logo:{
-    backgroundColor:'#fff',
-  },
-  signInBtn:{
-    borderRadius:10,
-    //color:'#841584',
-    backgroundColor:'#841584',
-    width:'80%',
-    alignItems:'center',
-    padding:20,
-    marginBottom:10
-    //overflow:'visible'
-  },
-  signInTxt:{
-    color:'white',
-    fontWeight:'700'
-  }
-});

@@ -1,15 +1,24 @@
 import React from 'react';
 import {View,Text,ImageBackground,Image,TouchableOpacity,StyleSheet,TextInput} from 'react-native';
-import {Card} from 'react-native-paper'
+import {Card, Checkbox} from 'react-native-paper';
+import {firebaseOperations} from '../../../Services/api';
 export default class LoginScreen extends React.Component{
   state={
     username:'',
-    password:''
+    password:'',
+    error:''
   }
   signIn(){
     const {username,password}=this.state;
     console.log(username,password);
-   this.props.navigation.navigate('home');
+   firebaseOperations.getTeacherById(username).then((obj)=>{
+   if(password===obj.password){
+    this.props.navigation.navigate('home');
+   }  
+   else{
+     this.setState({error:'Invalid password'});
+   }
+   });
   }
     render(){
         return(
@@ -19,6 +28,7 @@ export default class LoginScreen extends React.Component{
       flex: 1,
       alignItems: 'center',
       justifyContent: 'center',
+      flexGrow:2
       }}
     >
         <ImageBackground
@@ -52,7 +62,7 @@ export default class LoginScreen extends React.Component{
           width:'100%',
           justifyContent:'center',
           alignItems:'center',
-        
+            flexGrow:2
           }}>
           <Card
           style={{margin:10,
@@ -70,11 +80,30 @@ export default class LoginScreen extends React.Component{
           style={{height: 40, borderColor: 'purple', borderWidth: 1.5,padding:10, margin:10}}/>
         </Card>
       </View>
+      <View style={{flex:1,
+      flexGrow:1,
+      display:'flex',
+      width:'100%',
+      flexDirection:'column'}}>
+            <View style={{alignContent:'flex-start',
+                            marginLeft:'10%',
+                            alignSelf:'flex-start'}}>
+              <Checkbox.IOS/>
+              <Text>Keep me Signed In</Text>
+            </View>
+            <View style={{alignContent:'flex-end',
+                          alignSelf:'flex-end',
+                          marginRight:'10%'
+          }}>
+              <Text style={{color:'blue'}}>Forgot password?</Text>
+            </View>
+      </View>
       <View
           style={{flex:1,
           flexDirection:'row',
           justifyContent:"center",
           alignItems:'flex-end',
+          flexGrow:1
         }}
       >
               <TouchableOpacity
