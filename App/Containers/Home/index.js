@@ -1,5 +1,5 @@
 import React from 'react';
-import {View,Text} from 'react-native';
+import {View,Text,ScrollView} from 'react-native';
 import {Card, Title, Paragraph} from 'react-native-paper';
 import { Button } from 'react-native-paper';
 import {DrawerActions} from 'react-navigation';
@@ -10,6 +10,7 @@ export default class Home extends React.Component{
     render(){
         return(
             <View>
+                <ScrollView>
                 <Card>
                     <Card.Content>
                         <Title>
@@ -23,7 +24,7 @@ export default class Home extends React.Component{
                         <Button icon="assessment">2</Button>
                     </Card.Actions>
                 </Card>
-                
+                </ScrollView>
             </View>
            
         )

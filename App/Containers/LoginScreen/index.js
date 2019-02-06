@@ -2,7 +2,9 @@ import React from 'react';
 import {View,Text,ImageBackground,Image,TouchableOpacity,StyleSheet,TextInput} from 'react-native';
 import {Card, Checkbox} from 'react-native-paper';
 import {firebaseOperations} from '../../../Services/api';
-export default class LoginScreen extends React.Component{
+import {connect} from 'react-redux';
+import {setUsername} from './action';
+ class LoginScreen extends React.Component{
   state={
     username:'',
     password:'',
@@ -10,15 +12,15 @@ export default class LoginScreen extends React.Component{
   }
   signIn(){
     const {username,password}=this.state;
-    console.log(username,password);
-   firebaseOperations.getTeacherById(username).then((obj)=>{
-   if(password===obj.password){
+  // firebaseOperations.getTeacherById(username).then((obj)=>{
+   //if(password===obj.password){
+    this.props.setUsername(username);
     this.props.navigation.navigate('home');
-   }  
-   else{
-     this.setState({error:'Invalid password'});
-   }
-   });
+   //}  
+   //else{
+    // this.setState({error:'Invalid password'});
+   //}
+   //});
   }
     render(){
         return(
@@ -139,3 +141,12 @@ const styles = StyleSheet.create({
       fontWeight:'700'
     }
   });
+  const mapStateToProps=(state)=>{
+    return {};
+  }
+  const mapdispatchToProps=dispatch=>{
+    return{
+    setUsername: (username)=>dispatch(setUsername(username)),
+    }
+  }
+  export default connect(mapStateToProps,mapdispatchToProps)(LoginScreen);

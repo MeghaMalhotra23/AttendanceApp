@@ -5,6 +5,12 @@ import {createStackNavigator,createAppContainer,createDrawerNavigator,DrawerActi
 import DrawerContainer from './App/Containers/Drawer';
 import {Button} from 'react-native-paper';
 import * as firebase from 'firebase';
+import {Provider } from 'react-redux';
+import {createStore} from 'redux';
+import {LoginReducer} from './App/Containers/LoginScreen/reducer';
+//Redux
+
+const store=createStore(LoginReducer);
 //firebase config
 var config = {
   apiKey: "AIzaSyAbmUDdJgswI_K0wUraShFQaZT-lWQXS_g",
@@ -37,6 +43,15 @@ const DrawerStack=createDrawerNavigator({
   drawerContainer:{
     screen:DrawerContainer
   }
-})
-const App=createAppContainer(DrawerStack);
+},{contentComponent:DrawerContainer})
+const AppNav=createAppContainer(DrawerStack);
+class App extends React.Component{
+  render(){
+    return(
+      <Provider store={store}>
+        <AppNav/>
+      </Provider>
+    )
+  }
+}
 export default App;
