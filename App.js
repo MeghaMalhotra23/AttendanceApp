@@ -32,8 +32,12 @@ const appStack= createStackNavigator({
   home:{screen:HomeScreen,
     navigationOptions:({navigation})=>({
       headerTitle:'Home',
+      headerTintColor: 'white',
+      headerStyle: {
+        backgroundColor: 'purple'
+      },
       headerLeft:(
-        <Button icon="menu" onPress={()=>navigation.dispatch(DrawerActions.openDrawer())}></Button>
+        <Button icon="menu" color='white' onPress={()=>navigation.dispatch(DrawerActions.openDrawer())}></Button>
       )
       })
     },
@@ -45,7 +49,9 @@ const DrawerStack=createDrawerNavigator({
     screen:DrawerContainer
   }
 },{contentComponent:DrawerContainer})
+
 const AppNav=createAppContainer(DrawerStack);
+
 class App extends React.Component{
   render(){
     return(
