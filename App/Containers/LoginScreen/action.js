@@ -4,3 +4,9 @@ export function setUsername(data){
         data
     }
 }
+export function setDetails(data){
+    return{
+        type:"details",
+        data
+    }
+}

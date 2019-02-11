@@ -3,7 +3,7 @@ import {View,Text,ImageBackground,Image,TouchableOpacity,StyleSheet,TextInput} f
 import {Card, Checkbox} from 'react-native-paper';
 import {firebaseOperations} from '../../../Services/api';
 import {connect} from 'react-redux';
-import {setUsername} from './action';
+import {setUsername,setDetails} from './action';
  class LoginScreen extends React.Component{
   state={
     username:'',
@@ -14,8 +14,11 @@ import {setUsername} from './action';
     const {username,password}=this.state;
   // firebaseOperations.getTeacherById(username).then((obj)=>{
    //if(password===obj.password){
+     firebaseOperations.getTeacherDetails(username).then((obj)=>{
+      this.props.setDetails(obj);
+      this.props.navigation.navigate('home');
+     })
     this.props.setUsername(username);
-    this.props.navigation.navigate('home');
    //}  
    //else{
     // this.setState({error:'Invalid password'});
@@ -147,6 +150,7 @@ const styles = StyleSheet.create({
   const mapdispatchToProps=dispatch=>{
     return{
     setUsername: (username)=>dispatch(setUsername(username)),
+    setDetails: (data)=>dispatch(setDetails(data))
     }
   }
   export default connect(mapStateToProps,mapdispatchToProps)(LoginScreen);

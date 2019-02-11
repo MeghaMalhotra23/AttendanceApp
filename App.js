@@ -6,11 +6,12 @@ import DrawerContainer from './App/Containers/Drawer';
 import {Button} from 'react-native-paper';
 import * as firebase from 'firebase';
 import {Provider } from 'react-redux';
-import {createStore} from 'redux';
+import {createStore, applyMiddleware} from 'redux';
 import {LoginReducer} from './App/Containers/LoginScreen/reducer';
+import thunk from 'redux-thunk';
 //Redux
 
-const store=createStore(LoginReducer);
+const store=createStore(LoginReducer,{},applyMiddleware(thunk));
 //firebase config
 var config = {
   apiKey: "AIzaSyAbmUDdJgswI_K0wUraShFQaZT-lWQXS_g",

@@ -2,7 +2,10 @@ export const LoginReducer=(state,action)=>{
     switch(action.type){
         case "username":{
             console.log("test reducer",action.data);
-            return state;
+            return Object.assign({},state,{username:action.data});
+        }
+        case "details":{
+            return Object.assign({},state,{details:action.data});
         }
         default:
         return state;
