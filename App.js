@@ -6,12 +6,14 @@ import DrawerContainer from './App/Containers/Drawer';
 import {Button} from 'react-native-paper';
 import * as firebase from 'firebase';
 import {Provider } from 'react-redux';
-import {createStore, applyMiddleware} from 'redux';
+import {createStore, applyMiddleware, combineReducers} from 'redux';
 import {LoginReducer} from './App/Containers/LoginScreen/reducer';
+import HomeReducer from './App/Containers/Home/reducer';
 import thunk from 'redux-thunk';
+import AttendanceScreen from './App/Containers/AttendanceScreen';
 //Redux
-
-const store=createStore(LoginReducer,{},applyMiddleware(thunk));
+const rootReducer=combineReducers({login:LoginReducer,home:HomeReducer});
+const store=createStore(rootReducer,{},applyMiddleware(thunk));
 //firebase config
 var config = {
   apiKey: "AIzaSyAbmUDdJgswI_K0wUraShFQaZT-lWQXS_g",
@@ -33,11 +35,17 @@ const appStack= createStackNavigator({
   home:{screen:HomeScreen,
     navigationOptions:({navigation})=>({
       headerTitle:'Home',
+      title:'home',
       headerLeft:(
         <Button icon="menu" onPress={()=>navigation.dispatch(DrawerActions.openDrawer())}></Button>
       )
       })
     },
+  attendance:{screen:AttendanceScreen,
+              navigationOptions:{
+                headerTitle:'Attendance',
+                title:'attendance'
+              }}
 })
 const DrawerStack=createDrawerNavigator({
   app:appStack,

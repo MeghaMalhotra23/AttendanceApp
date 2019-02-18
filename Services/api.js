@@ -22,5 +22,16 @@ export const firebaseOperations={
         })
     })
     return pr; 
-    }
+    },
+    getAttendanceList(){
+    let pr=new Promise((resolve,reject)=>{
+        let list=firebase.database().ref('student_details/1/CSE/A');
+        list.on('value',(snapshot)=>{
+            let obj=snapshot.val();
+            resolve(obj);
+            reject('rejected');
+        })
+    })
+    return pr;
+    } 
 }

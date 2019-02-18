@@ -19,7 +19,7 @@ const HomeScreenCard = (props) => (
         </View>
        
         <View style={styles.actionContainer}>
-        <TouchableOpacity style={{flex:1,marginRight:2,padding:6,backgroundColor:colors.darkerBlue}}>
+        <TouchableOpacity onPress={props.navigateTo} style={{flex:1,marginRight:2,padding:6,backgroundColor:colors.darkerBlue}}>
         <Image source={require('../../assets/images/check_white.png')}
              style={{alignSelf:'center', resizeMode:'contain',height:35}}/> 
         </TouchableOpacity>

@@ -1,4 +1,7 @@
-export const LoginReducer=(state,action)=>{
+const initialState={
+
+}
+export const LoginReducer=(state=initialState,action)=>{
     switch(action.type){
         case "username":{
             console.log("test reducer",action.data);

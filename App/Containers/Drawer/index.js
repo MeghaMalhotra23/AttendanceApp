@@ -1,5 +1,5 @@
 import React from 'react';
-import {View,Text,ScrollView,StyleSheet,ImageBackground,TouchableWithoutFeedback}from 'react-native';
+import {View,Text,ScrollView,StyleSheet,ImageBackground,TouchableWithoutFeedback,Image}from 'react-native';
 import {SafeAreaView,DrawerItems} from 'react-navigation';
 import {connect} from 'react-redux';
 class DrawerContainer extends React.Component{
@@ -89,7 +89,8 @@ const styles = StyleSheet.create({
     },
     screenTextStyle:{
         fontSize: 15,
-        marginLeft: 20
+        marginLeft: 20,
+        //flexDirection:'row'
     },
   });
   const mapStateToProps=state=>{
