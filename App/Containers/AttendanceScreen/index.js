@@ -1,6 +1,7 @@
 import  React from 'react';
-import { Text, View, StyleSheet,ScrollView } from 'react-native';
+import { Text, View, StyleSheet,ScrollView,FlatList } from 'react-native';
 import { connect } from 'react-redux';
+import AttendanceScreenCard from '../../components/AttendanceScreenCard';
 
 // You can import from local files
 
@@ -8,25 +9,46 @@ import { connect } from 'react-redux';
 
 class AttendanceScreen extends React.Component {
   componentDidMount(){
-    console.log(this.props.list);
   }
+    _keyExtractor = (item) => item[0];
+
+    _renderItem = ({ item }) => (
+        <AttendanceScreenCard
+            name={item[1].name}
+            rollno={item[0]}
+            totalAttendance={item[2]}
+        />
+    )
   render() {
     const {list}=this.props;
+    const EmptyComponent = ({ title }) => (
+      <View style={{ alignItems: 'center', flex: 1 }} >
+          <Text >{title}</Text>
+      </View>
+  );
+    let mData = Object.assign(this.props.list.G1,this.props.list.G2);
+    let totalAttendanceArr=Object.entries(this.props.totalAttendance.attendance);
+    let arrayData=Object.entries(mData);
+    let newData= arrayData.map(function(item,index){
+      if(totalAttendanceArr[index][1]<0){
+        totalAttendanceArr[index][1]+=2*totalAttendanceArr[index][1]
+      }
+      else if(totalAttendanceArr[index][1]==-0){
+        totalAttendanceArr[index][1]=0;
+      }
+      item.push(totalAttendanceArr[index][1])
+        return item;
+      })
     return (
     <View style={styles.container}>
-      <ScrollView>
-        
-        
-            <View style={styles.header}>
-            <Text style={{color:'white', textAlign:'right', fontSize:40,padding:5,marginTop:10}}>45</Text>
-            <View>
-            <Text style={{color:'white',fontSize:20,padding:3,marginLeft:5}}>Name</Text>
-            <Text style={{color:'white',fontSize:15,padding:3,marginLeft:5}}>04520802716</Text>
-            <Text style={{color:'white',fontSize:15,padding:3,marginLeft:5}}>Total Attendance:00</Text>
-            </View>
-            </View>
-          
-    </ScrollView>
+    <FlatList
+    data={newData}
+    renderItem={this._renderItem}
+    keyExtractor={this._keyExtractor}
+    ListEmptyComponent={
+      <EmptyComponent title="Nothing to display"/>
+    }
+  />
     </View>
     );
   }
@@ -50,7 +72,8 @@ const styles = StyleSheet.create({
 });
 const mapStateToProps=(state)=>{
 return{
-list:state.home.attendanceList
+list:state.home.attendanceList,
+totalAttendance:state.home.totalAttendanceList
 }
 }
 export default connect(mapStateToProps)(AttendanceScreen);

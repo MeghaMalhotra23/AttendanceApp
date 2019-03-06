@@ -33,5 +33,16 @@ export const firebaseOperations={
         })
     })
     return pr;
-    } 
+    },
+    getTotalAttendance(){
+        let pr2=new Promise((resolve,reject)=>{
+            let total_list=firebase.database().ref('attendance_detail/1-CSE-A-Applied Chemistry/q999002');
+            total_list.on('value',(snapshot)=>{
+                let data=snapshot.val();
+                resolve(data);
+                reject('rejected');
+            })
+        })
+        return pr2;
+    }
 }

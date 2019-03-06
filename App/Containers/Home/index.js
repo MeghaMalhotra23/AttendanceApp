@@ -5,7 +5,7 @@ import { Button } from 'react-native-paper';
 import {DrawerActions} from 'react-navigation';
 import HomeScreenCard from '../../components/HomeScreenCard';
 import {connect} from 'react-redux';
-import {getList} from './action';
+import {getList,getTotalAttendancelist} from './action';
 import { firebaseOperations } from '../../../Services/api';
 class Home extends React.Component{
     componentDidMount(){
@@ -14,9 +14,11 @@ class Home extends React.Component{
     }
     navigateToAttendance(){
         firebaseOperations.getAttendanceList().then((obj)=>{
-            //console.log(obj);
             this.props.getList(obj);
-            this.props.navigation.navigate('attendance');
+            firebaseOperations.getTotalAttendance().then((data)=>{
+                this.props.getTotalAttendanceList(data);
+                this.props.navigation.navigate('attendance');
+            })
         })
         
     }
@@ -48,7 +50,8 @@ const mapStateToProps= state=>{
 }
 const mapDisptachToProps= dispatch=>{
     return{
-        getList:(data)=>dispatch(getList(data))
+        getList:(data)=>dispatch(getList(data)),
+        getTotalAttendanceList:(data)=>dispatch(getTotalAttendancelist(data))
     }
 }
 export default connect(mapStateToProps,mapDisptachToProps)(Home);

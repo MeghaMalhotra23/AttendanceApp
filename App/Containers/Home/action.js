@@ -4,3 +4,9 @@ export function getList(data){
         data
     }
 }
+export function getTotalAttendancelist(data){
+    return{
+        type:"TotalAttendanceList",
+        data
+    }
+}
