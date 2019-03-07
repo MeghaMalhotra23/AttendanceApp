@@ -23,9 +23,13 @@ export const firebaseOperations={
     })
     return pr; 
     },
-    getAttendanceList(){
+    getAttendanceList(item){
+        console.log(item);
+        let year=item.split('-')[0];
+        let clas=item.split('-')[1];
+        let section=item.split('-')[2];
     let pr=new Promise((resolve,reject)=>{
-        let list=firebase.database().ref('student_details/1/CSE/A');
+        let list=firebase.database().ref('student_details/'+year+'/'+clas+'/'+section);
         list.on('value',(snapshot)=>{
             let obj=snapshot.val();
             resolve(obj);
@@ -34,9 +38,9 @@ export const firebaseOperations={
     })
     return pr;
     },
-    getTotalAttendance(){
+    getTotalAttendance(item){
         let pr2=new Promise((resolve,reject)=>{
-            let total_list=firebase.database().ref('attendance_detail/1-CSE-A-Applied Chemistry/q999002');
+            let total_list=firebase.database().ref('attendance_detail/'+item+'/q999001');
             total_list.on('value',(snapshot)=>{
                 let data=snapshot.val();
                 resolve(data);

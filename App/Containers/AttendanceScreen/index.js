@@ -27,9 +27,12 @@ class AttendanceScreen extends React.Component {
       </View>
   );
     let mData = Object.assign(this.props.list.G1,this.props.list.G2);
-    let totalAttendanceArr=Object.entries(this.props.totalAttendance.attendance);
+    let totalAttendanceArr;
+    let newData;
     let arrayData=Object.entries(mData);
-    let newData= arrayData.map(function(item,index){
+    if(this.props.totalAttendance){
+    totalAttendanceArr=Object.entries(this.props.totalAttendance.attendance);
+    newData= arrayData.map(function(item,index){
       if(totalAttendanceArr[index][1]<0){
         totalAttendanceArr[index][1]+=2*totalAttendanceArr[index][1]
       }
@@ -38,7 +41,10 @@ class AttendanceScreen extends React.Component {
       }
       item.push(totalAttendanceArr[index][1])
         return item;
-      })
+      })}
+    else{
+      totalAttendanceArr=Object.entries(mData);
+    }
     return (
     <View style={styles.container}>
     <FlatList
