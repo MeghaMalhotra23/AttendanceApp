@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, ImageBackground, Image, TouchableOpacity, StyleSheet, TextInput } from 'react-native';
+import { View, Text, ImageBackground, Image, TouchableOpacity, StyleSheet, TextInput, ActivityIndicator } from 'react-native';
 import { Card, Checkbox } from 'react-native-paper';
 import { firebaseOperations } from '../../../Services/api';
 import { connect } from 'react-redux';
@@ -12,13 +12,41 @@ class LoginScreen extends React.Component {
     password: '',
     error: '',
     checked: false,
+    loading: false,
   }
+
+  showLoading() {
+    if (this.state.loading)
+      return (
+        <View style={{
+          alignSelf: 'center',marginTop:14, height: 50, width: 50,
+          backgroundColor: 'purple', borderRadius: 50, justifyContent: 'center'
+        }}>
+          <ActivityIndicator size="large" color='white' />
+        </View>
+      )
+  }
+
+   renderButton(){
+     if(!this.state.loading)
+     return(
+      <TouchableOpacity
+      activeOpacity={0.6}
+      style={styles.signInBtn}
+      onPress={() => this.signIn()}>
+      <Text style={styles.signInTxt}>Sign In</Text>
+    </TouchableOpacity>
+     )
+   }
+
   signIn() {
-    const { username, password } = this.state;
+    const { username, password, loading } = this.state;
     // firebaseOperations.getTeacherById(username).then((obj)=>{
     //if(password===obj.password){
+    this.setState({ loading: true })
     firebaseOperations.getTeacherDetails(username).then((obj) => {
       this.props.setDetails(obj);
+      this.setState({loading:false})
       this.props.navigation.navigate('home');
     })
     this.props.setUsername(username);
@@ -122,7 +150,7 @@ class LoginScreen extends React.Component {
             marginRight: '10%'
           }}>
             <TouchableOpacity>
-              <Text style={{ color: 'purple' }}>Forgot password?</Text>
+              <Text activeOpacity={0.6} style={{ color: 'purple' }}>Forgot password?</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -135,11 +163,8 @@ class LoginScreen extends React.Component {
             flexGrow: 1
           }}
         >
-          <TouchableOpacity
-            style={styles.signInBtn}
-            onPress={() => this.signIn()}>
-            <Text style={styles.signInTxt}>Sign In</Text>
-          </TouchableOpacity>
+        {this.showLoading()}
+         {this.renderButton()}
         </View>
       </View>
     )
@@ -156,12 +181,12 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
   },
   signInBtn: {
-    borderRadius: 10,
+    borderRadius: 30,
     backgroundColor: '#841584',
     width: '80%',
     alignItems: 'center',
     padding: 20,
-    marginBottom: 10
+    marginBottom: 14
   },
   signInTxt: {
     color: 'white',
