@@ -8,8 +8,13 @@ import { firebaseOperations } from '../../../Services/api';
 
 class Home extends React.Component {
 
+    state={
+        hideFab:false
+    }
+
     componentDidMount() {
     }
+
     navigateToAttendance=(item)=>{
         firebaseOperations.getAttendanceList(item).then((obj)=>{
             this.props.getList(obj);
@@ -67,6 +72,18 @@ class Home extends React.Component {
 
     }
 
+    renderFab(){
+       if(!this.state.hideFab)
+       return(
+        <FAB
+        style={styles.fab}
+        icon="edit"
+        color='black'
+        onPress={() => this.onFabPressed()}
+    />
+       )
+    }
+
     _keyExtractor = (item) => item;
 
     _renderItem = ({ item }) => (
@@ -101,19 +118,16 @@ class Home extends React.Component {
                     data={mData}
                     keyExtractor={this._keyExtractor}
                     renderItem={this._renderItem}
-                    progressViewOffset={10}
+                    progressViewOffset={10} 
                     overScrollMode='always'
-                    indicatorStyle='black'
+                    onScrollEndDrag={() => this.setState({hideFab:false})}
+                    onScrollBeginDrag={() => this.setState({hideFab:true})}
                     ListEmptyComponent={
                         <EmptyComponent title="Nothing to display !!" />
                     }
                 />
-                <FAB
-                    style={styles.fab}
-                    icon="edit"
-                    color='black'
-                    onPress={() => this.onFabPressed()}
-                />
+
+                {this.renderFab()}
             </View>
 
         )

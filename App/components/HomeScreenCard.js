@@ -37,13 +37,13 @@ class HomeScreenCard extends React.Component {
                     </View>
 
                     <View style={styles.actionContainer}>
-                        <TouchableOpacity onPress={this.props.navigateTo}
+                        <TouchableOpacity activeOpacity={0.6} onPress={this.props.navigateTo}
                          style={{ borderBottomLeftRadius: 10, flex: 1, marginRight: 2, padding: 6, backgroundColor: colors.darkerBlue }}>
                             <Image source={require('../../assets/images/check_white.png')}
                                 style={{ alignSelf: 'center', resizeMode: 'contain', height: 35 }} />
                         </TouchableOpacity>
 
-                        <TouchableOpacity 
+                        <TouchableOpacity  activeOpacity={0.6}
                         style={{ borderBottomRightRadius: 10,marginLeft: 2, flex: 1, padding: 6, backgroundColor: colors.darkerBlue }}>
                             <Image source={require('../../assets/images/assessment.png')}
                                 style={{ alignSelf: 'center', resizeMode: 'contain', height: 35 }} />
@@ -74,13 +74,13 @@ class HomeScreenCard extends React.Component {
                     </View>
 
                     <View style={styles.actionContainer}>
-                        <TouchableOpacity onPress={this.props.navigateTo}
+                        <TouchableOpacity activeOpacity={0.6} onPress={this.props.navigateTo}
                         style={{ borderBottomLeftRadius: 10, flex: 1, marginRight: 2, padding: 6, backgroundColor: colors.darkerBlue }}>
                             <Image source={require('../../assets/images/check_white.png')}
                                 style={{ alignSelf: 'center', resizeMode: 'contain', height: 35 }} />
                         </TouchableOpacity>
 
-                        <TouchableOpacity 
+                        <TouchableOpacity  activeOpacity={0.6}
                         style={{ borderBottomRightRadius: 10, marginLeft: 2, flex: 1, padding: 6, backgroundColor: colors.darkerBlue }}>
                             <Image source={require('../../assets/images/assessment.png')}
                                 style={{ alignSelf: 'center', resizeMode: 'contain', height: 35 }} />
