@@ -9,6 +9,9 @@ switch(action.type){
     case "TotalAttendanceList":{
         return Object.assign({},state,{totalAttendanceList:action.data});
     }
+    case "TotalAttendanceValue":{
+        return Object.assign({},state,{totalAttendanceValue:action.data});
+    }
     default:
     return state;
 }

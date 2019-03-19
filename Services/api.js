@@ -38,9 +38,9 @@ export const firebaseOperations={
     })
     return pr;
     },
-    getTotalAttendance(item){
+    getTotalAttendanceValue(item){
         let pr2=new Promise((resolve,reject)=>{
-            let total_list=firebase.database().ref('attendance_detail/'+item+'/q999001');
+            let total_list=firebase.database().ref('attendance_detail/'+item+'/total');
             total_list.on('value',(snapshot)=>{
                 let data=snapshot.val();
                 resolve(data);
@@ -48,5 +48,24 @@ export const firebaseOperations={
             })
         })
         return pr2;
+    },
+    getTotalAttendance(item,val){
+        let pr2=new Promise((resolve,reject)=>{
+            let total_list=firebase.database().ref('attendance_detail/'+item+'/q99900'+val);
+            total_list.on('value',(snapshot)=>{
+                let data=snapshot.val();
+                resolve(data);
+                reject('rejected');
+            })
+        })
+        return pr2;
+    },
+    saveAttendance(item,val,data){
+        //console.log(item,val,data);
+        firebase.database().ref('attendance_detail/'+item+'/q99900'+val).set(data);
+        this.updateTotalAttendance(item,val);
+    },
+    updateTotalAttendance(item,updatedValue){
+        firebase.database().ref('attendance_detail/'+item+'/total').set(updatedValue);
     }
 }

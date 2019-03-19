@@ -10,3 +10,9 @@ export function getTotalAttendancelist(data){
         data
     }
 }
+export function getTotalAttendanceValue(data){
+    return{
+        type:"TotalAttendanceValue",
+        data
+    }
+}

@@ -15,22 +15,29 @@ class LoginScreen extends React.Component {
   }
   signIn() {
     const { username, password } = this.state;
-    // firebaseOperations.getTeacherById(username).then((obj)=>{
-    //if(password===obj.password){
+     firebaseOperations.getTeacherById(username).then((obj)=>{
+    if(obj){
+    if(password==obj.password){
     firebaseOperations.getTeacherDetails(username).then((obj) => {
       this.props.setDetails(obj);
       this.props.navigation.navigate('home');
     })
     this.props.setUsername(username);
-    //}  
-    //else{
-    // this.setState({error:'Invalid password'});
-    //}
-    //});
+    }  
+    else{
+     this.setState({error:'Invalid password'});
+     alert(this.state.error);
+    }
+  }
+  else{
+    this.setState({error:'Incorrect ID'});
+    alert(this.state.error);
+  }
+    });
   }
   render() {
 
-    let { checked } = this.state;
+    let { checked,error } = this.state;
 
     return (
       <View style={styles.container}>

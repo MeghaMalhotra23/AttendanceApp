@@ -3,7 +3,7 @@ import { View, FlatList, Text, StyleSheet } from 'react-native';
 import { FAB } from 'react-native-paper';
 import HomeScreenCard from '../../components/HomeScreenCard';
 import {connect} from 'react-redux';
-import {getList,getTotalAttendancelist} from './action';
+import {getList,getTotalAttendancelist,getTotalAttendanceValue} from './action';
 import { firebaseOperations } from '../../../Services/api';
 
 class Home extends React.Component {
@@ -13,11 +13,53 @@ class Home extends React.Component {
     navigateToAttendance=(item)=>{
         firebaseOperations.getAttendanceList(item).then((obj)=>{
             this.props.getList(obj);
-            firebaseOperations.getTotalAttendance(item).then((data)=>{
+            firebaseOperations.getTotalAttendanceValue(item).then((val)=>{
+                this.props.getTotalAttendanceValue(val);
+                if(val=="0"){
+                    let last2chars=item.slice(-2);
+                    if(last2chars=='G1'){
+                        let element={};
+                        for(const keys in obj.G1){
+                            element[keys]="-0";
+                        }
+                        let list={};
+                        list["attendance"]=element;
+                        list["date"]="";
+                        this.props.getTotalAttendanceList(list);
+                    }
+                    else if(last2chars=='G2'){
+                        let element={};
+                        for(const keys in obj.G2){
+                            element[keys]="-0";
+                        }
+                        let list={};
+                        list["attendance"]=element;
+                        list["date"]="";
+                        this.props.getTotalAttendanceList(list);
+                    }
+                    else{
+                        let mList=Object.assign(obj.G1,obj.G2);
+                        let element={};
+                        for(const keys in mList){
+                            element[keys]="-0";
+                        }
+                        let list={};
+                        list["attendance"]=element;
+                        list["date"]="";
+                        this.props.getTotalAttendanceList(list);
+
+                    }
+
+                    this.props.navigation.navigate('attendance',{subject:item});
+                }
+                else{
+            firebaseOperations.getTotalAttendance(item,val).then((data)=>{
                 this.props.getTotalAttendanceList(data);
-                this.props.navigation.navigate('attendance');
+                this.props.navigation.navigate('attendance',{subject:item});
             })
+        }
         })
+    })
         
     }
 
@@ -86,6 +128,7 @@ const mapStateToProps= state=>{
 const mapDisptachToProps= dispatch=>{
     return{
         getList:(data)=>dispatch(getList(data)),
+        getTotalAttendanceValue: (data)=>dispatch(getTotalAttendanceValue(data)),
         getTotalAttendanceList:(data)=>dispatch(getTotalAttendancelist(data))
     }
 }
